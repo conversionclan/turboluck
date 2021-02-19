@@ -44,6 +44,9 @@
 									)
 								) 
 							); 
+							if ( strpos( home_url(), 'dev.' ) !== false ) {
+								echo '/development environment/';
+							}								
 							?>
 						</a>
 					</div>
