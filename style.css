@@ -309,6 +309,13 @@ iframe {
 	z-index: 100000;
 }
 
+.dev-badge {
+	font-size: 9px;
+	position: relative;
+	top: -10px;
+	color: #ce49e1;
+}
+
 
 /* 
 2. Header

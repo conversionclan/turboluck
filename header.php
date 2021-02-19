@@ -45,7 +45,7 @@
 								) 
 							); 
 							if ( strpos( home_url(), 'dev.' ) !== false ) {
-								echo '/development environment/';
+								echo '<div class="dev-badge">/development environment/</div>';
 							}								
 							?>
 						</a>
