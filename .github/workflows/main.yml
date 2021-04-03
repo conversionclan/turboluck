@@ -1,4 +1,4 @@
-name: CI
+name: auto-deploy on dev commit
 
 # Controls when the action will run. 
 on:
