@@ -29,7 +29,7 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
       
-      - name: Deploy to production server
+      - name: Deploy to prod server
         uses: appleboy/scp-action@master
         with: 
           host: ${{ secrets.HOST_MASTER }}
