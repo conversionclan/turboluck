@@ -49,7 +49,7 @@
                         <div class="footer-copyright">
 							<div class="footer-copyright-claim">&#169; <?php echo date_i18n( 'Y' ); ?> Turboluck</div>
 							<div class="footer-responsible-gambling">
-								<div class="eighteen">18+</div> <a href="https://www.begambleaware.org/" target="_blank">Gamble responsibly</a>
+								<div class="eighteen">18+</div> <a href="https://www.begambleaware.org/" target="_blank">Gamble responsibly!</a>
 							</div>
 						</div>
 						
