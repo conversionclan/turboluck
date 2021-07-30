@@ -5,14 +5,14 @@
 add_action( 'after_setup_theme', 'bento_theme_setup' );
 
 function bento_theme_setup() {
-	
+
 	// Features
 	add_theme_support( 'title-tag' );
 	add_theme_support( 'post-thumbnails', array( 'post', 'page', 'project', 'product', 'room' ) );
 	add_theme_support( 'automatic-feed-links' );
 	// add_theme_support( 'post-formats', array( 'aside', 'gallery', 'quote', 'link', 'image' ) );
 	add_theme_support( 'custom-background', array ( 'default-color' => '#f4f4f4' ) );
-	
+
 	// Actions
 	add_action( 'wp_enqueue_scripts', 'bento_theme_styles_scripts' );
 	add_action( 'admin_enqueue_scripts', 'bento_admin_scripts' );
@@ -26,12 +26,12 @@ function bento_theme_setup() {
 	add_action( 'init', 'bento_jquerycdn' );
 	add_action( 'aioseop_title', 'change_wordpress_seo_title', 5, 1 );
 	add_action( 'aioseop_description', 'change_wordpress_seo_description', 5, 1 );
-	
+
 	remove_action( 'wp_head', 'feed_links_extra', 3 );
-	remove_action( 'wp_head', 'feed_links', 2 ); 
+	remove_action( 'wp_head', 'feed_links', 2 );
 	remove_action( 'wp_head', 'rsd_link' );
 	remove_action( 'wp_head', 'adjacent_posts_rel_link_wp_head' );
-		
+
 	// Filters
 	add_filter( 'excerpt_more', 'bento_custom_excerpt_more' );
 	add_filter( 'comment_form_fields', 'bento_rearrange_comment_fields' );
@@ -41,12 +41,12 @@ function bento_theme_setup() {
 	add_filter( 'upload_mimes', 'tl_mime_types' );
 	add_filter( 'get_the_excerpt', 'tl_custom_excerpt' );
 	// add_filter( 'wp_head', 'tl_analytics_yandex' );
-	
+
 	remove_filter( 'term_description','wpautop' );
-	
+
 	// Languages
 	load_theme_textdomain( 'bento', get_template_directory() . '/languages' );
-	
+
 	// Initialize navigation menus
 	register_nav_menus(
 		array(
@@ -54,7 +54,7 @@ function bento_theme_setup() {
 			'footer-menu' => esc_html__( 'Footer Menu', 'bento' ),
 		)
 	);
-	
+
 	// Customizer options
 	if ( file_exists( get_template_directory() . '/includes/customizer/customizer.php' ) ) {
 		require_once( get_template_directory() . '/includes/customizer/customizer.php' );
@@ -64,32 +64,32 @@ function bento_theme_setup() {
 	add_action( 'customize_controls_print_styles', 'bento_customizer_stylesheet' );
 	add_action( 'customize_controls_enqueue_scripts', 'bento_customizer_scripts' );
 	add_action( 'admin_notices', 'bento_customizer_admin_notice' );
-				    
+
 }
 
 
 
 // Register and enqueue CSS and scripts
-function bento_theme_styles_scripts() {	
-	
+function bento_theme_styles_scripts() {
+
 	// Scripts
 	wp_enqueue_script( 'jquery-fitvids', get_template_directory_uri().'/includes/fitvids/jquery.fitvids.js', array('jquery'), false, true );
 	wp_enqueue_script( 'bento-theme-scripts', get_template_directory_uri().'/includes/js/theme-scripts.js', array('jquery'), false, true );
-		
+
 	// Styles
 	wp_enqueue_style( 'bento-theme-styles', get_template_directory_uri().'/style.css', array( 'dashicons' ), null, 'all' );
 	wp_enqueue_style( 'font-awesome', get_template_directory_uri().'/includes/font-awesome/css/fontawesome-all.min.css', array(), null, 'all' );
 	wp_enqueue_style( 'google-fonts', bento_google_fonts(), array(), null );
-		
+
 	// Passing php variables to theme scripts
 	bento_localize_scripts();
-	    
+
 }
 
 
 // Admin scripts
 function bento_admin_scripts() {
-	
+
 	// Enqueue scripts
 	$screen = get_current_screen();
 	$edit_screens = array( 'post', 'page', 'project', 'product' );
@@ -103,10 +103,10 @@ function bento_admin_scripts() {
 	if ( 'appearance_page_about-bento' == $screen->id ) {
 		wp_enqueue_style( 'bento-admin-styles', get_template_directory_uri().'/includes/admin/admin-styles.css', array(), null, 'all' );
 	}
-	
+
 	// Passing php variables to admin scripts
 	bento_localize_migrate_scripts();
-	
+
 }
 
 
@@ -209,10 +209,10 @@ function bento_comment_form_defaults( $defaults ) {
     $defaults['comment_field'] = '
 		<div class="comment-form-comment">
 			<textarea
-				id="comment" 
-				name="comment" 
-				placeholder="'.esc_html__( 'Comment', 'bento' ).'" 
-				cols="45" rows="8" 
+				id="comment"
+				name="comment"
+				placeholder="'.esc_html__( 'Comment', 'bento' ).'"
+				cols="45" rows="8"
 				aria-required="true"
 			></textarea>
 		</div>
@@ -238,12 +238,12 @@ function bento_comment_form_fields( $fields ) {
 	$fields['author'] = '
 		<div class="comment-form-field comment-form-author">
 			<label for="author">'.esc_html__( 'Name', 'bento' ).'</label>
-			<input 
-				id="author" 
-				name="author" 
-				type="text" 
-				placeholder="'.esc_html__( 'Name','bento' ).'" 
-				value="'.esc_attr( $commenter['comment_author'] ).'" 
+			<input
+				id="author"
+				name="author"
+				type="text"
+				placeholder="'.esc_html__( 'Name','bento' ).'"
+				value="'.esc_attr( $commenter['comment_author'] ).'"
 				size="30"'.$aria_req.
 			' />
 		</div>
@@ -251,12 +251,12 @@ function bento_comment_form_fields( $fields ) {
     $fields['email'] = '
 		<div class="comment-form-field comment-form-email">
 			<label for="email">'.esc_html__( 'Email', 'bento' ).'</label>
-			<input 
-				id="email" 
-				name="email" 
-				type="text" 
-				placeholder="'.esc_html__( 'Email','bento' ).'" 
-				value="'. esc_attr( $commenter['comment_author_email'] ).'" 
+			<input
+				id="email"
+				name="email"
+				type="text"
+				placeholder="'.esc_html__( 'Email','bento' ).'"
+				value="'. esc_attr( $commenter['comment_author_email'] ).'"
 				size="30"'.$aria_req.
 			' />
 		</div>
@@ -295,19 +295,19 @@ function bento_cleaner_archive_titles($title) {
 
 // Page settings metaboxes
 function bento_metaboxes() {
-	
+
 	// Define strings
 	$bento_prefix = 'bento_';
-	$bento_ep_url = wp_kses( 
-		'<a href="http://satoristudio.net/bento-free-wordpress-theme/#expansion-pack/?utm_source=disabled&utm_medium=theme&utm_campaign=theme" target="_blank">Expansion Pack</a>', 
+	$bento_ep_url = wp_kses(
+		'<a href="http://satoristudio.net/bento-free-wordpress-theme/#expansion-pack/?utm_source=disabled&utm_medium=theme&utm_campaign=theme" target="_blank">Expansion Pack</a>',
 		array(
 			'a' => array(
 				'href' => array(),
 				'target' => array(),
 			),
-		) 
+		)
 	);
-	
+
 	// Callback to display a field only on single post types
 	function bento_show_field_on_single() {
 		$current_screen = get_current_screen();
@@ -317,7 +317,7 @@ function bento_metaboxes() {
 			return true;
 		}
 	}
-	
+
 	// Function to add a multicheck with post types
 	add_action( 'cmb2_render_multicheck_posttype', 'bento_render_multicheck_posttype', 10, 5 );
 	function bento_render_multicheck_posttype( $field, $escaped_value, $object_id, $object_type, $field_type_object ) {
@@ -352,9 +352,9 @@ function bento_metaboxes() {
 		$classes = false === $field->args( 'select_all_button' ) ? 'cmb2-checkbox-list no-select-all cmb2-list' : 'cmb2-checkbox-list cmb2-list';
 		echo $field_type_object->radio( array( 'class' => $classes, 'options' => $options ), 'multicheck_posttype' );
 	}
-	
+
 	// Review settings
-	$bento_general_settings = new_cmb2_box( 
+	$bento_general_settings = new_cmb2_box(
 		array(
 			'id'            => 'review_settings_metabox',
 			'title'         => esc_html__( 'Review settings', 'bento' ),
@@ -362,7 +362,7 @@ function bento_metaboxes() {
 			'context'       => 'normal',
 			'priority'      => 'high',
 			'show_names' => true,
-		) 
+		)
 	);
 	$bento_general_settings->add_field(
 		array(
@@ -421,10 +421,10 @@ function bento_metaboxes() {
 			'default' => '#cccccc',
 		)
 	);
-	
+
 	// SEO settings
 	if ( get_option( 'bento_ep_license_status' ) == 'valid' ) {
-		$bento_seo_settings = new_cmb2_box( 
+		$bento_seo_settings = new_cmb2_box(
 			array(
 				'id'            => 'seo_settings_metabox',
 				'title'         => esc_html__( 'SEO Settings', 'bento' ),
@@ -432,7 +432,7 @@ function bento_metaboxes() {
 				'context'       => 'normal',
 				'priority'      => 'low',
 				'show_names'	=> true,
-			) 
+			)
 		);
 		$bento_seo_settings->add_field(
 			array(
@@ -454,9 +454,9 @@ function bento_metaboxes() {
 			)
 		);
 	}
-	
-	// Page settings 
-	$bento_page_settings = new_cmb2_box( 
+
+	// Page settings
+	$bento_page_settings = new_cmb2_box(
 		array(
 			'id'            => 'page_settings_metabox',
 			'title'         => esc_html__( 'Page settings', 'bento' ),
@@ -464,7 +464,7 @@ function bento_metaboxes() {
 			'context'       => 'normal',
 			'priority'      => 'high',
 			'show_names' => true,
-		) 
+		)
 	);
 	$bento_page_settings->add_field(
 		array(
@@ -474,7 +474,7 @@ function bento_metaboxes() {
 			'type' => 'checkbox',
 		)
 	);
-	
+
 }
 
 
@@ -541,13 +541,13 @@ function tl_room_rating($id = '') {
 		if ( $id == '' ) {
 			$id = get_the_ID();
 		}
-		$rating_result_raw = mrp_rating_result( 
-			array( 
+		$rating_result_raw = mrp_rating_result(
+			array(
 				'result_type' => 'score',
 				'show_count' => 'false',
 				'echo' => false,
 				'post_id' => $id,
-			) 
+			)
 		);
 		$rating_result_stripped = strip_tags($rating_result_raw);
 		$rating_result = substr($rating_result_stripped, 0, strpos($rating_result_stripped, '/'));
@@ -563,13 +563,13 @@ function tl_room_rating_count($id = '') {
 		if ( $id == '' ) {
 			$id = get_the_ID();
 		}
-		$rating_result_raw = mrp_rating_result( 
-			array( 
+		$rating_result_raw = mrp_rating_result(
+			array(
 				'result_type' => 'score',
 				'echo' => false,
 				'before_count' => '-',
 				'post_id' => $id,
-			) 
+			)
 		);
 		$rating_result_stripped = strip_tags($rating_result_raw);
 		$rating_result = substr($rating_result_stripped, strpos($rating_result_stripped, '-')+1 );
@@ -595,7 +595,7 @@ function sh_afflink( $atts ) {
 add_shortcode( 'afflink', 'sh_afflink' );
 
 
-// Display a star rating 
+// Display a star rating
 function star_rating() {
 	$comment_rating = tl_room_rating();
 	$rating_count = tl_room_rating_count();
@@ -608,7 +608,7 @@ function star_rating() {
 					"@context": "http://schema.org",
 					"@type": "Product",
 					"name": "'.do_shortcode( get_the_title() ).'",
-					"aggregateRating": 
+					"aggregateRating":
 					{	"@type": "AggregateRating",
 						"ratingValue": "'.$comment_rating.'",
 						"reviewCount": "'.$rating_count.'"
@@ -630,7 +630,7 @@ function star_rating() {
 
 // Custom favicon
 function bento_custom_favicon() {
-	
+
 	echo '
 		<link rel="apple-touch-icon" sizes="180x180" href="/wp-content/themes/turboluck/images/favicon/apple-touch-icon.png">
 		<link rel="icon" type="image/png" sizes="32x32" href="/wp-content/themes/turboluck/images/favicon/favicon-32x32.png">
@@ -642,12 +642,12 @@ function bento_custom_favicon() {
 		<meta name="msapplication-config" content="/wp-content/themes/turboluck/images/favicon/browserconfig.xml">
 		<meta name="theme-color" content="#ffffff">
 	';
-	
+
 }
 
 
 function tl_analytics_yandex() {
-	
+
 	echo '
 		<!-- Yandex.Metrika counter -->
 		<script type="text/javascript" >
@@ -663,7 +663,7 @@ function tl_analytics_yandex() {
 		<noscript><div><img src="https://mc.yandex.ru/watch/53308480" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
 		<!-- /Yandex.Metrika counter -->
 	';
-	
+
 }
 
 
@@ -732,7 +732,7 @@ function tl_front_list() {
         <h1><?php _e( 'Front Page List', 'bento' ); ?></h1>
         <p><?php _e( 'Set the reviews to be features in the list on front page.', 'bento' ); ?></p>
 		<form method="POST" action="<?php echo esc_url( admin_url('admin.php') ); ?>">
-			<?php 
+			<?php
 			submit_button(  __( 'Save changes', 'bento' ), 'primary', 'tl_set_front_list' );
 			$langs = pll_languages_list(array('hide_empty' => 1, 'fields' => 'slug' ));
 			foreach ( $langs as $lang ) {
@@ -783,7 +783,7 @@ function tl_front_list() {
 								for ( $i=1; $i<4; $i++ ) {
 									$selected = 'none';
 									$j = $i - 1;
-									if ( isset( $current_settings_array[$j] ) ) { 
+									if ( isset( $current_settings_array[$j] ) ) {
 										if ( $current_settings_array[$j] != 'none' ) {
 											$selected = $current_settings_array[$j];
 										}
@@ -855,7 +855,7 @@ function tl_front_list() {
 								for ( $i=1; $i<4; $i++ ) {
 									$selected = 'none';
 									$j = $i - 1;
-									if ( isset( $current_settings_array[$j] ) ) { 
+									if ( isset( $current_settings_array[$j] ) ) {
 										if ( $current_settings_array[$j] != 'none' ) {
 											$selected = $current_settings_array[$j];
 										}
@@ -906,7 +906,7 @@ function tl_set_front_list() {
 	if ( isset( $_POST ) ) {
 		$langs = pll_languages_list(array('hide_empty' => 1, 'fields' => 'slug' ));
 		foreach ( $langs as $lang ) {
-			
+
 			$type_settings_array = array();
 			$types_args = array(
 				'taxonomy' => 'type',
@@ -925,7 +925,7 @@ function tl_set_front_list() {
 				$type_settings_array[$typename] = $settings_type_array;
 			}
 			update_option( 'front_list_'.$lang, $type_settings_array );
-			
+
 			$tag_settings_array = array();
 			$tags_args = array(
 				'taxonomy' => 'post_tag',
@@ -998,23 +998,23 @@ function tl_display_front_list() {
 	$complete = 0;
 	$output .= '<div class="front-list">';
 	if ( is_home() ) {
-		
+
 		$settings = get_option( 'front_list_'.$currlang );
 		$tabs = array(
-			'bookmaker' => array( 
+			'bookmaker' => array(
 				'name' => __( 'Bet', 'bento' ),
 				'slogan' => __( 'Best places to bet online', 'bento' ),
 			),
-			'casino' => array( 
+			'casino' => array(
 				'name' => __( 'Play', 'bento' ),
 				'slogan' => __( 'Best places to try your luck online', 'bento' ),
 			),
-			'broker' => array( 
+			'broker' => array(
 				'name' => __( 'Trade', 'bento' ),
 				'slogan' => __( 'Best places to trade online', 'bento' ),
 			),
 		);
-		
+
 		$output .= '<div class="front-list-tabs">';
 		foreach ( $tabs as $key => $val ) {
 			$tab_class = '';
@@ -1036,15 +1036,15 @@ function tl_display_front_list() {
 			$output .= '<div class="front-list-tab front-list-tab-clickable '.$tab_class.'" data-type="'.$key.'" data-slogan="'.$val['slogan'].'">'.$val['name'].'</div>';
 		}
 		$output .= '<div class="front-list-tab front-list-tab-slogan">'.$tabs['bookmaker']['slogan'].':</div></div>';
-	
+
 	} else {
-		
+
 		$settings = get_option( 'tag_list_'.$currlang );
 		$tag_slug = get_queried_object()->slug;
 		$tabs = array(
 			$tag_slug => array(),
 		);
-		
+
 	}
 	$i = 1;
 	$output .= '<div class="front-list-items-container">';
@@ -1053,9 +1053,13 @@ function tl_display_front_list() {
 		if ( ! empty( $settings ) ) {
 			foreach ( $settings[$key] as $val ) {
 				if ( $val != 'none' ) {
+					if($complete == 3){
+						$complete = 0; // changing count value
+									  //back to zero because we need 1,2,3
+					}
 					$complete++;
 				} else {
-					break; 
+					break;
 				}
 				$val_eng = pll_get_post( $val, 'en' );
 				$brand = get_post_meta( $val, 'bento_review_brand', true );
@@ -1066,16 +1070,18 @@ function tl_display_front_list() {
 				if ( $icon_svg == '' ) {
 					$icon_svg = get_post_meta( $val_eng, 'bento_review_icon', true );
 				}
-				$icon_brand = '<img src="'.$icon_svg.'" alt="'.$brand.'">';
+				//$icon_brand = '<img src="'.$icon_svg.'" alt="'.$brand.'">';
 				if ( is_tag() ) {
 					$icon_brand = $i;
 				}
-				$rev_col = get_post_meta( $val, 'bento_review_color', true );
-				if ( $rev_col == '#cccccc' ) {
-					$rev_col = get_post_meta( $val_eng, 'bento_review_color', true );
-				}
-				if ( is_tag() ) {
-					$rev_col = '#00b285';
+				//$rev_col = get_post_meta( $val, 'bento_review_color', true );
+
+				$rev_col = '#00AC7D'; //added fixed color as per requirement
+				// if ( $rev_col == '#cccccc' ) {
+				// 	$rev_col = get_post_meta( $val_eng, 'bento_review_color', true );
+				// }
+				// if ( is_tag() ) {
+				// 	$rev_col = '#00b285';
 					/*
 					if ( get_post_meta( $val, 'bento_review_color', true ) != '#cccccc' ) {
 						$rev_col = get_post_meta( $val, 'bento_review_color', true );
@@ -1085,10 +1091,10 @@ function tl_display_front_list() {
 						}
 					}
 					*/
-				}
+				//}
 				$icon = '
 					<div class="front-list-item-icon-circle" style="background-color:'.$rev_col.'">
-						'.$icon_brand.'
+						'.$complete.'
 					</div>
 				';
 				$rating_width = ( tl_room_rating($val) / 5 ) * 100;
@@ -1131,16 +1137,16 @@ function tl_display_front_list() {
 	}
 	$output .= '</div></div>';
 	if ( $complete > 0 ) {
-		echo $output; 
+		echo $output;
 	}
 }
 
 
 // Display front category grid
 function tl_display_front_categories() {
-	
+
 	if ( pll_current_language() == 'en' && is_front_page() ) {
-		$cats = array( 
+		$cats = array(
 			'new' => array(
 				'adj' => __( 'finest', 'bento' ),
 				'cat' => __( 'new', 'bento' ),
@@ -1175,7 +1181,7 @@ function tl_display_front_categories() {
 		$cats_output = '<div class="front-categories">'.$cats_output.'</div>';
 		echo $cats_output;
 	}
-	
+
 }
 
 
@@ -1194,17 +1200,17 @@ function shortcode_thisyear() {
 add_shortcode( 'thisyear', 'shortcode_thisyear' );
 
 function shortcode_thismonth() {
-	
+
 	$month = date( 'F' );
-	
-	$currlang = pll_current_language();	
+
+	$currlang = pll_current_language();
 	if ( $currlang == 'ru' ) {
 		$ru_months = array( 'январь', 'февраль', 'март', 'апрель', 'май', 'июнь', 'июль', 'август', 'сентябрь', 'октябрь', 'ноябрь', 'декабрь' );
 		$monthstr = date( 'n' );
 		$monthnum = (int)$monthstr - 1;
 		$month = $ru_months[$monthnum];
 	}
-	
+
 	return $month;
 }
 add_shortcode( 'thismonth', 'shortcode_thismonth' );
@@ -1293,6 +1299,22 @@ function tl_display_tag_header() {
 	';
 	echo $output;
 }
-	
+
+//adding styles to head
+
+add_action('wp_head', function(){
+
+	/* icons fix by shan */
+
+	echo '<style>.front-list-item-icon-circle {
+			text-align: center;
+			color: #fff;
+			font-family: Merriweather;
+			font-weight: 400;
+			overflow: hidden;
+			font-style: italic;}
+		</style>';
+});
+
 
 ?>
